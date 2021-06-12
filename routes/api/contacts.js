@@ -9,6 +9,11 @@ const {
   updateContact,
 } = require("../../model");
 
+const {
+  validationAddContact,
+  validationUpdateContact,
+} = require("./validation");
+
 router.get("/", async (req, res, next) => {
   try {
     const contacts = await listContacts();
@@ -31,7 +36,7 @@ router.get("/:contactId", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", validationAddContact, async (req, res, next) => {
   try {
     const contact = await addContact(req.body);
     res.status(201).json({ contact, status: "success" });
@@ -54,16 +59,11 @@ router.delete("/:contactId", async (req, res, next) => {
   }
 });
 
-router.patch("/:contactId", async (req, res, next) => {
+router.patch("/:contactId", validationUpdateContact, async (req, res, next) => {
   const { contactId } = req.params;
   const { body } = req;
-
   try {
     const contact = await updateContact(contactId, body);
-
-    if (!req.body) {
-      res.status(400).json({ message: "missing fields" });
-    }
 
     if (contact) {
       return res.status(200).json({ contact, status: "success" });
