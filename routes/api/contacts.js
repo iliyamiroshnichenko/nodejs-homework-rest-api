@@ -1,3 +1,4 @@
+const { json } = require("express");
 const express = require("express");
 const router = express.Router();
 
@@ -9,10 +10,7 @@ const {
   updateContact,
 } = require("../../model");
 
-const {
-  validationAddContact,
-  validationUpdateContact,
-} = require("./validation");
+const { addContactSchema, updateContactSchema } = require("./validation");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -36,7 +34,11 @@ router.get("/:contactId", async (req, res, next) => {
   }
 });
 
-router.post("/", validationAddContact, async (req, res, next) => {
+router.post("/", async (req, res, next) => {
+  const { error } = addContactSchema.validate(req.body);
+  if (error) {
+    return res.status(400).json({ message: "missing required name field" });
+  }
   try {
     const contact = await addContact(req.body);
     res.status(201).json({ contact, status: "success" });
@@ -59,9 +61,13 @@ router.delete("/:contactId", async (req, res, next) => {
   }
 });
 
-router.patch("/:contactId", validationUpdateContact, async (req, res, next) => {
+router.patch("/:contactId", async (req, res, next) => {
   const { contactId } = req.params;
   const { body } = req;
+  const { error } = updateContactSchema.validate(req.body);
+  if (error) {
+    return res.status(400).json({ message: "missing fields" });
+  }
   try {
     const contact = await updateContact(contactId, body);
 

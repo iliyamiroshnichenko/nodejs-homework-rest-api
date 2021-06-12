@@ -28,20 +28,7 @@ const updateContactSchema = Joi.object({
     .optional(),
 }).or("name", "email", "phone");
 
-const validate = async (schema, obj, next) => {
-  try {
-    await schema.validateAsync(obj);
-    next();
-  } catch (err) {
-    next({ status: 400, message: err.message.replace(/"/g, "") });
-  }
-};
-
 module.exports = {
-  validationAddContact: (req, res, next) => {
-    return validate(addContactSchema, req.body, next);
-  },
-  validationUpdateContact: (req, res, next) => {
-    return validate(updateContactSchema, req.body, next);
-  },
+  addContactSchema,
+  updateContactSchema,
 };
