@@ -7,9 +7,14 @@ const {
   addContact,
   removeContact,
   updateContact,
+  updateStatusContact,
 } = require("../../model");
 
-const { addContactSchema, updateContactSchema } = require("./validation");
+const {
+  addContactSchema,
+  updateContactSchema,
+  updateStatusContactSchema,
+} = require("./validation");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -60,7 +65,7 @@ router.delete("/:contactId", async (req, res, next) => {
   }
 });
 
-router.patch("/:contactId", async (req, res, next) => {
+router.put("/:contactId", async (req, res, next) => {
   const { contactId } = req.params;
   const { body } = req;
   const { error } = updateContactSchema.validate(req.body);
@@ -69,6 +74,25 @@ router.patch("/:contactId", async (req, res, next) => {
   }
   try {
     const contact = await updateContact(contactId, body);
+
+    if (contact) {
+      return res.status(200).json({ contact, status: "success" });
+    }
+    res.status(404).json({ message: "Not found" });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.patch("/:contactId", async (req, res, next) => {
+  const { contactId } = req.params;
+  const { body } = req;
+  const { error } = updateStatusContactSchema.validate(req.body);
+  if (error) {
+    return res.status(400).json({ message: "missing field favorite" });
+  }
+  try {
+    const contact = await updateStatusContact(contactId, body);
 
     if (contact) {
       return res.status(200).json({ contact, status: "success" });

@@ -22,11 +22,4 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: err.message });
 });
 
-process.on("SIGINT", () => {
-  mongoose.connection.close(() => {
-    console.log("Connection for DB disconnected and app terminated");
-    process.exit(1);
-  });
-});
-
 module.exports = app;
