@@ -7,7 +7,6 @@ const contactsPath = path.resolve("model/contacts.json");
 
 const listContacts = async () => {
   return ContactsSchema.find();
-
   // try {
   //   const data = await fs.readFile(contactsPath, "utf8");
   //   return JSON.parse(data);
