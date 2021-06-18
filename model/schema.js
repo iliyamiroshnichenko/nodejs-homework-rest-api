@@ -1,10 +1,10 @@
-const mongoose = require("mongoose");
-const { Schema, model } = mongoose;
+const mongoose = require('mongoose')
+const { Schema, model } = mongoose
 
 const contact = new Schema({
   name: {
     type: String,
-    required: [true, "Set name for contact"],
+    required: [true, 'Set name for contact'],
   },
   email: {
     type: String,
@@ -16,8 +16,8 @@ const contact = new Schema({
     type: Boolean,
     default: false,
   },
-});
+})
 
-const Contacts = model("contact", contact);
+const Contacts = model('contact', contact)
 
-module.exports = Contacts;
+module.exports = Contacts
