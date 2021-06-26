@@ -1,97 +1,97 @@
-const Contacts = require("../services/contact");
+const Contacts = require('../services/contact')
 
 const {
   addContactSchema,
   updateContactSchema,
   updateStatusContactSchema,
-} = require("../routes/api/validation");
+} = require('../routes/api/validation')
 
 const listContacts = async (req, res, next) => {
   try {
-    const contacts = await Contacts.listContacts();
-    res.status(200).json({ contacts, status: "success" });
+    const contacts = await Contacts.listContacts()
+    res.status(200).json({ contacts, status: 'success' })
   } catch (e) {
-    next(e);
+    next(e)
   }
-};
+}
 
 const getContactById = async (req, res, next) => {
-  const { contactId } = req.params;
+  const { contactId } = req.params
   try {
-    const contact = await Contacts.getContactById(contactId);
+    const contact = await Contacts.getContactById(contactId)
     if (contact) {
-      return res.status(200).json({ contact, status: "success" });
+      return res.status(200).json({ contact, status: 'success' })
     }
-    res.status(404).json({ message: "Not found" });
+    res.status(404).json({ message: 'Not found' })
   } catch (e) {
-    next(e);
+    next(e)
   }
-};
+}
 
 const addContact = async (req, res, next) => {
-  const { error } = addContactSchema.validate(req.body);
+  const { error } = addContactSchema.validate(req.body)
   if (error) {
-    return res.status(400).json({ message: "missing required name field" });
+    return res.status(400).json({ message: 'missing required name field' })
   }
   try {
-    const contact = await Contacts.addContact(req.body);
-    res.status(201).json({ contact, status: "success" });
+    const contact = await Contacts.addContact(req.body)
+    res.status(201).json({ contact, status: 'success' })
   } catch (e) {
-    next(e);
+    next(e)
   }
-};
+}
 
 const removeContact = async (req, res, next) => {
-  const { contactId } = req.params;
+  const { contactId } = req.params
   try {
-    const result = await Contacts.removeContact(contactId);
+    const result = await Contacts.removeContact(contactId)
 
     if (result) {
-      return res.status(200).json({ message: `contact №${contactId} deleted` });
+      return res.status(200).json({ message: `contact №${contactId} deleted` })
     }
-    res.status(404).json({ message: "Not found" });
+    res.status(404).json({ message: 'Not found' })
   } catch (e) {
-    next(e);
+    next(e)
   }
-};
+}
 
 const updateContact = async (req, res, next) => {
-  const { contactId } = req.params;
-  const { body } = req;
-  const { error } = updateContactSchema.validate(req.body);
+  const { contactId } = req.params
+  const { body } = req
+  const { error } = updateContactSchema.validate(req.body)
   if (error) {
-    return res.status(400).json({ message: "missing fields" });
+    return res.status(400).json({ message: 'missing fields' })
   }
   try {
-    const contact = await Contacts.updateContact(contactId, body);
+    const contact = await Contacts.updateContact(contactId, body)
 
     if (contact) {
-      return res.status(200).json({ contact, status: "success" });
+      return res.status(200).json({ contact, status: 'success' })
     }
-    res.status(404).json({ message: "Not found" });
+    res.status(404).json({ message: 'Not found' })
   } catch (error) {
-    next(error);
+    next(error)
   }
-};
+}
 
 const updateStatusContact = async (req, res, next) => {
-  const { contactId } = req.params;
-  const { body } = req;
-  const { error } = updateStatusContactSchema.validate(req.body);
+  const { contactId } = req.params
+  const { body } = req
+  const { error } = updateStatusContactSchema.validate(req.body)
   if (error) {
-    return res.status(400).json({ message: "missing field favorite" });
+    return res.status(400).json({ message: 'missing field favorite' })
   }
   try {
-    const contact = await Contacts.updateContact(contactId, body);
+    const contact = await Contacts.updateContact(contactId, body)
 
     if (contact) {
-      return res.status(200).json({ contact, status: "success" });
+      return res.status(200).json({ contact, status: 'success' })
     }
-    res.status(404).json({ message: "Not found" });
+    res.status(404).json({ message: 'Not found' })
   } catch (error) {
-    next(error);
+    next(error)
   }
-};
+}
 
 module.exports = {
   listContacts,
@@ -100,4 +100,4 @@ module.exports = {
   removeContact,
   updateContact,
   updateStatusContact,
-};
+}
