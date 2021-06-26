@@ -5,9 +5,11 @@ const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 
 const login = async ({ email, password }) => {
   const user = await User.getUserByEmail(email);
-  const isValidPassword = await user?.validPassword(password);
+  console.log(user);
+  // const isValidPassword = await user?.validPassword(password);
 
-  if (!user || !isValidPassword) {
+  if (!user || !(await user.validPassword(password))) {
+    console.log("sdfsdfvsddfvsdfsdfsd");
     return null;
   }
 
