@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
+const bCrypt = require("bcryptjs");
 const { Schema, model } = mongoose;
 
 const user = new Schema({
@@ -23,12 +23,18 @@ const user = new Schema({
   },
 });
 
-userSchema.methods.setPassword = function (password) {
+// user.pre("save", async function () {
+//   if (this.isNew) {
+//     this.password = await bcrypt.hash(this.password, 9);
+//   }
+// });
+user.methods.setPassword = function (password) {
   this.password = bCrypt.hashSync(password, bCrypt.genSaltSync(6));
 };
 
 user.methods.validPassword = function (password) {
-  return bCrypt.compareSync(password, this.password);
+  const a = bCrypt.compareSync(password, this.password);
+  return a;
 };
 
 const Users = model("user", user);

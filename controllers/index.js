@@ -1,4 +1,4 @@
-const Contacts = require("../repositories/contact");
+const Contacts = require("../services/contact");
 
 const {
   addContactSchema,
