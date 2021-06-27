@@ -1,4 +1,4 @@
-const Contacts = require('../model/schema')
+const Contacts = require('../model/contactSchema')
 
 const listContacts = () => {
   return Contacts.find()

@@ -1,4 +1,4 @@
-const Contacts = require('../repositories')
+const Contacts = require('../services/contact')
 
 const {
   addContactSchema,
@@ -17,7 +17,6 @@ const listContacts = async (req, res, next) => {
 
 const getContactById = async (req, res, next) => {
   const { contactId } = req.params
-  console.log(req.params)
   try {
     const contact = await Contacts.getContactById(contactId)
     if (contact) {
