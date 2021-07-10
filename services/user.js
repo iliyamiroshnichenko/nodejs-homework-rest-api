@@ -22,8 +22,8 @@ const getUserByEmail = async (email) => {
 
 const addUser = async (body) => {
   const verifyToken = nanoid();
-  const { email, name } = body;
-  await sendEmail(verifyToken, email, name);
+  const { email } = body;
+  await sendEmail(verifyToken, email);
   const user = await Users({ ...body, verifyToken });
   return user.save();
 };
@@ -71,6 +71,15 @@ const verify = async ({ token }) => {
   return false;
 };
 
+const reVerify = async (email) => {
+  const user = await User.findOne({ email, verify: false });
+
+  if (user) {
+    await sendEmail(user.verifyToken, email);
+    return true;
+  }
+};
+
 module.exports = {
   getUserById,
   getUserByEmail,
@@ -78,4 +87,5 @@ module.exports = {
   updateToken,
   updateAvatar,
   verify,
+  reVerify,
 };

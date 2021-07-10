@@ -2,7 +2,7 @@ const sgMail = require("@sendgrid/mail");
 const Mailgen = require("mailgen");
 require("dotenv").config();
 
-const createTemplate = (verifyToken, name) => {
+const createTemplate = (verifyToken, email) => {
   const mailGenerator = new Mailgen({
     theme: "default",
     product: {
@@ -13,7 +13,7 @@ const createTemplate = (verifyToken, name) => {
 
   const template = {
     body: {
-      name,
+      name: email,
       intro:
         "Welcome to System Contacts! We're very excited to have you on board.",
       action: {
@@ -33,8 +33,8 @@ const createTemplate = (verifyToken, name) => {
   return emailBody;
 };
 
-const sendEmail = async (verifyToken, email, name) => {
-  const emailBody = createTemplate(verifyToken, name);
+const sendEmail = async (verifyToken, email) => {
+  const emailBody = createTemplate(verifyToken, email);
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
   const msg = {
     to: email,

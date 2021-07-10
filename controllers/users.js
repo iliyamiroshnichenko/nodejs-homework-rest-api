@@ -57,4 +57,22 @@ const verify = async (req, res, next) => {
   } catch (error) {}
 };
 
-module.exports = { signUp, logIn, logOut, currentUser, avatars, verify };
+const reVerify = async (req, res) => {
+  const result = await User.reVerify(req.body.email);
+
+  if (result) {
+    return res.status(200).json({ message: "Verification email sent" });
+  }
+
+  res.status(400).json({ message: "Verification has already been passed" });
+};
+
+module.exports = {
+  signUp,
+  logIn,
+  logOut,
+  currentUser,
+  avatars,
+  verify,
+  reVerify,
+};
