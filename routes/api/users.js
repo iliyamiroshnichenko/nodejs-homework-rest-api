@@ -16,4 +16,6 @@ router.get("/current", protect, controller.currentUser);
 
 router.patch("/avatars", protect, upload.single("avatar"), controller.avatars);
 
+router.post("/verify/:token", controller.verify);
+
 module.exports = router;

@@ -45,4 +45,16 @@ const avatars = async (req, res) => {
   return res.status(200).json({ avatarURL: url });
 };
 
-module.exports = { signUp, logIn, logOut, currentUser, avatars };
+const verify = async (req, res, next) => {
+  try {
+    const result = await User.verify(req.params);
+    if (result) {
+      return res.status(200).json({ message: "Verification successful" });
+    }
+    return res
+      .status(404)
+      .json({ message: "Your verification token is inavlid" });
+  } catch (error) {}
+};
+
+module.exports = { signUp, logIn, logOut, currentUser, avatars, verify };
