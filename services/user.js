@@ -63,7 +63,7 @@ const updateAvatar = async (id, pathFile) => {
 };
 
 const verify = async ({ token }) => {
-  const user = await Users.findById({ verifyToken: token });
+  const user = await Users.findOne({ verifyToken: token });
   if (user) {
     await user.updateOne({ verify: true, verifyToken: null });
     return true;
